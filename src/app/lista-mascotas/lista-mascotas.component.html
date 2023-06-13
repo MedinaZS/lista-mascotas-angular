@@ -1,31 +1,30 @@
 <div class="mt-3 col-sm-6 mx-auto">
 
-    <div class="card mb-3" *ngFor="let reporte of lista">
-        <div class="card-header text-center">
-            <h4 class="text-primary">{{reporte.title}}</h4> 
-        </div>
-        <div class="card-body">
-            <div class="d-flex">
-                <!-- Imagen -->
-                <div class="img-container">
-                    <img src={{reporte.image}} class="object-fit-cover">
-                </div>
-                <!-- Detalle reporte -->
-                <div class="ps-3">
-                    <p class="fw-bold">Última vez visto : {{reporte.ultimo_visto}} </p>
-                    <p>{{reporte.description}}</p>
-                    <p>Contacto: {{reporte.contact}} </p>
-                    <p> {{reporte.country}} </p>
-                    <a target="_blank" class="btn btn-warning rounded-pill" href={{reporte.url}}>Ver reporte completo</a>
+    <div *ngFor="let reporte of lista">
+        <!-- Card -->
+        <div *ngIf="reporte.visible" class="card mb-3">
+            <!-- Header -->
+            <div class="card-header text-center">
+                <h4 class="text-primary">{{reporte.title}}</h4>
+            </div>
+            <!-- Body -->
+            <div class="card-body">
+                <div class="d-flex">
+                    <!-- Imagen -->
+                    <div class="img-container">
+                        <img src={{reporte.image}} class="object-fit-cover">
+                    </div>
+                    <!-- Detalle reporte -->
+                    <div class="ps-3">
+                        <p class="fw-bold">Última vez visto : {{reporte.ultimo_visto}} </p>
+                        <p>{{reporte.description}}</p>
+                        <p>Contacto: {{reporte.contact}} </p>
+                        <p> {{reporte.country}} </p>
+                        <a target="_blank" class="btn btn-warning rounded-pill" href={{reporte.url}}>Ver reporte
+                            completo</a>
+                    </div>
                 </div>
             </div>
         </div>
-
     </div>
-
 </div>
-
-<!-- <div class="my-5">
-    <h1 class="text-center">{{title}}</h1>
-    <lista-mascotas></lista-mascotas>
-  </div> -->
