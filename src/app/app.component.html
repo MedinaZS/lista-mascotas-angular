@@ -1,12 +1,128 @@
 <div>
-  <div class="my-3">
-    <h1 class="text-center">{{title}}</h1>
-    <lista-mascotas></lista-mascotas>
-  </div>
+	<div class="my-3">
+		<h1 class="text-center">{{title}}</h1>
+		<div class="mt-5 row row-cols-1 row-cols-sm-2 m-0 px-3">
+			<!-- Form -->
+			<div>
+				<div class="card shadow mb-3 mb-mb-0">
+					<div class="card-header text-center">
+						<h4 class="text-primary">PUBLICAR REPORTE</h4>
+					</div>
 
-  <svg id="clouds" xmlns="http://www.w3.org/2000/svg" width="2611.084" height="485.677" viewBox="0 0 2611.084 485.677">
-    <title>Gray Clouds Background</title>
-    <path id="Path_39" data-name="Path 39" d="M2379.709,863.793c10-93-77-171-168-149-52-114-225-105-264,15-75,3-140,59-152,133-30,2.83-66.725,9.829-93.5,26.25-26.771-16.421-63.5-23.42-93.5-26.25-12-74-77-130-152-133-39-120-212-129-264-15-54.084-13.075-106.753,9.173-138.488,48.9-31.734-39.726-84.4-61.974-138.487-48.9-52-114-225-105-264,15a162.027,162.027,0,0,0-103.147,43.044c-30.633-45.365-87.1-72.091-145.206-58.044-52-114-225-105-264,15-75,3-140,59-152,133-53,5-127,23-130,83-2,42,35,72,70,86,49,20,106,18,157,5a165.625,165.625,0,0,0,120,0c47,94,178,113,251,33,61.112,8.015,113.854-5.72,150.492-29.764a165.62,165.62,0,0,0,110.861-3.236c47,94,178,113,251,33,31.385,4.116,60.563,2.495,86.487-3.311,25.924,5.806,55.1,7.427,86.488,3.311,73,80,204,61,251-33a165.625,165.625,0,0,0,120,0c51,13,108,15,157-5a147.188,147.188,0,0,0,33.5-18.694,147.217,147.217,0,0,0,33.5,18.694c49,20,106,18,157,5a165.625,165.625,0,0,0,120,0c47,94,178,113,251,33C2446.709,1093.793,2554.709,922.793,2379.709,863.793Z" transform="translate(142.69 -634.312)" fill="#eee"/>
-  </svg>
+					<div class="card-body">
+						<!-- Form -->
+						<form #myForm="ngForm" (ngSubmit)="submitForm(myForm)">
+							<!-- Titulo reporte -->
+							<div class="mb-3">
+								<label class="form-label fw-bold" for="title">Titulo de reporte:</label>
+								<input class="form-control" type="text" id="title" name="title"
+									[(ngModel)]="formData.title" required maxlength="13"
+									placeholder="Ejemplo: Perro Perdido">
+								<div class="text-danger"
+									*ngIf="myForm.controls['title']?.invalid && (myForm.controls['title'].dirty || myForm.controls['title'].touched)">
+									<div *ngIf="myForm.controls['title'].errors?.['required']">El titulo es requerido.
+									</div>
+								</div>
+							</div>
+
+							<!-- Descripcion reporte -->
+							<div class="mb-3">
+								<label class="form-label fw-bold" for="description">Descripcion de reporte:</label>
+								<textarea rows="3" class="form-control" type="text" id="description" name="description"
+									[(ngModel)]="formData.description" required 
+									placeholder="Ejemplo: Se perdió en zona de jardin botánico, lleva puesto collar rojo"></textarea>
+								<div class="text-danger"
+									*ngIf="myForm.controls['description']?.invalid && (myForm.controls['description'].dirty || myForm.controls['description'].touched)">
+									<div *ngIf="myForm.controls['description'].errors?.['required']">La descripción es
+										requerida.</div>
+								</div>
+							</div>
+
+							<!-- Imagen -->
+							<div class="mb-3">
+								<label class="form-label fw-bold" for="image">Foto:</label>
+								<input class="form-control" type="text" id="image" name="image"
+									[(ngModel)]="formData.image" required>
+								<div class="text-danger"
+									*ngIf="myForm.controls['image']?.invalid && (myForm.controls['image'].dirty || myForm.controls['image'].touched)">
+									<div *ngIf="myForm.controls['image'].errors?.['required']">La foto es requerida.
+									</div>
+								</div>
+							</div>
+
+							<!-- Contacto -->
+							<div class="mb-3">
+								<label class="form-label fw-bold" for="contact">Teléfono contacto:</label>
+								<input class="form-control" type="number" id="contact" name="contact"
+									[(ngModel)]="formData.contact" min="0" required>
+								<div class="text-danger"
+									*ngIf="myForm.controls['contact']?.invalid && (myForm.controls['contact'].dirty || myForm.controls['contact'].touched)">
+									<div *ngIf="myForm.controls['contact'].errors?.['required']">El número de teléfono
+										es requerido.</div>
+								</div>
+							</div>
+
+
+							<!-- Ultimo visto -->
+							<div class="mb-3">
+								<label class="form-label fw-bold" for="last_view">Último visto:</label>
+								<input class="form-control" type="date" id="last_view" name="last_view"
+									[(ngModel)]="formData.last_view" [max]="todayDate" required onkeydown="return false">
+								<div class="text-danger"
+									*ngIf="myForm.controls['last_view']?.invalid && (myForm.controls['last_view'].dirty || myForm.controls['last_view'].touched)">
+									<div *ngIf="myForm.controls['last_view'].errors?.['required']">La fecha es
+										requerida.</div>
+									<div *ngIf="myForm.controls['last_view'].errors?.['max']">La fecha es inválida.</div>
+								</div>
+							</div>
+
+							<!-- Pais -->
+							<div class="mb-3">
+								<label class="form-label fw-bold" for="country">Pais:</label>
+								<select name="country" id="country" [(ngModel)]="formData.country" class="form-select"
+									required="">
+									<option value="Paraguay" selected>Paraguay</option>
+								</select>
+
+								<div class="text-danger"
+									*ngIf="myForm.controls['country']?.invalid && (myForm.controls['country'].dirty || myForm.controls['country'].touched)">
+									<div *ngIf="myForm.controls['country'].errors?.['required']">El país es requerido.
+									</div>
+								</div>
+							</div>
+
+							<!-- Url -->
+							<div class="mb-3">
+								<label class="form-label fw-bold" for="url">Link a reporte:</label>
+								<input class="form-control" type="text" id="url" name="url" [(ngModel)]="formData.url"
+									min="0" required [pattern]="patternUrl">
+								<div class="text-danger"
+									*ngIf="myForm.controls['url']?.invalid && (myForm.controls['url'].dirty || myForm.controls['url'].touched)">
+									<div *ngIf="myForm.controls['url'].errors?.['required']">El link es requerido.</div>
+									<div *ngIf="myForm.controls['url'].errors?.['pattern']">El link es inválido.</div>
+								</div>
+							</div>
+
+							<div class="d-grid mt-4">
+								<button class="btn btn-success" type="submit"
+									[disabled]="myForm.invalid">Enviar</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+
+			<!-- Lista -->
+			<lista-mascotas [lista]="lista"></lista-mascotas>
+		</div>
+	</div>
+
+	<svg id="clouds" xmlns="http://www.w3.org/2000/svg" width="2611.084" height="485.677"
+		viewBox="0 0 2611.084 485.677">
+		<title>Gray Clouds Background</title>
+		<path id="Path_39" data-name="Path 39"
+			d="M2379.709,863.793c10-93-77-171-168-149-52-114-225-105-264,15-75,3-140,59-152,133-30,2.83-66.725,9.829-93.5,26.25-26.771-16.421-63.5-23.42-93.5-26.25-12-74-77-130-152-133-39-120-212-129-264-15-54.084-13.075-106.753,9.173-138.488,48.9-31.734-39.726-84.4-61.974-138.487-48.9-52-114-225-105-264,15a162.027,162.027,0,0,0-103.147,43.044c-30.633-45.365-87.1-72.091-145.206-58.044-52-114-225-105-264,15-75,3-140,59-152,133-53,5-127,23-130,83-2,42,35,72,70,86,49,20,106,18,157,5a165.625,165.625,0,0,0,120,0c47,94,178,113,251,33,61.112,8.015,113.854-5.72,150.492-29.764a165.62,165.62,0,0,0,110.861-3.236c47,94,178,113,251,33,31.385,4.116,60.563,2.495,86.487-3.311,25.924,5.806,55.1,7.427,86.488,3.311,73,80,204,61,251-33a165.625,165.625,0,0,0,120,0c51,13,108,15,157-5a147.188,147.188,0,0,0,33.5-18.694,147.217,147.217,0,0,0,33.5,18.694c49,20,106,18,157,5a165.625,165.625,0,0,0,120,0c47,94,178,113,251,33C2446.709,1093.793,2554.709,922.793,2379.709,863.793Z"
+			transform="translate(142.69 -634.312)" fill="#eee" />
+	</svg>
 
 </div>
